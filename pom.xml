@@ -3,10 +3,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>br.com.fiap</groupId>
-  <artifactId>ez-fastfood-order-ms</artifactId>
+  <artifactId>ez-fastfood-catalog-ms</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>ez-fast-food</name>
-  <description>ez-fastfood-order-ms</description>
+  <description>ez-fastfood-catalog-ms</description>
   <packaging>jar</packaging>
 
   <parent>
