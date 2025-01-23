@@ -71,10 +71,4 @@ public class ProductRepositoryImpl implements ProductRepository {
 		return productJpaRepository.findProductByCategoryId(id).stream().map(ProductMapper::entityToDomain)
 				.collect(Collectors.toList());
 	}
-
-	@Override
-	public boolean isProductAssociatedWithOrderItems(Long id) {
-		return productJpaRepository.isProductAssociatedWithOrderItems(id);
-	}
-
 }

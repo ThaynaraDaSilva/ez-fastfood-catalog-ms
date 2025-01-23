@@ -9,7 +9,6 @@ import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.ProductMapper;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -75,11 +74,7 @@ public class ProductUseCase {
 
     public void deleteById(Long id) {
         if (productRepository.existsById(id)) {
-        	if(productRepository.isProductAssociatedWithOrderItems(id)) {
-        		throw new BusinessException("Esse produto não pode ser excluído,uma vez que já há pedido(s).");
-        	}else {
-        		productRepository.deleteById(id);
-        	}
+            productRepository.deleteById(id);
         } else {
             throw new EntityNotFoundException("Produto escolhido não foi encontrado.");
         }
