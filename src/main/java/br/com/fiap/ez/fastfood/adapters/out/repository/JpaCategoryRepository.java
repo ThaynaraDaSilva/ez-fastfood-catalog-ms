@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 public interface JpaCategoryRepository  extends JpaRepository<CategoryEntity, Long>{
 
 	
-	@Query(nativeQuery = true, value = "SELECT * FROM EZ_FASTFOOD_CATALOG.CATEGOGRY WHERE id = :id")
+	@Query(nativeQuery = true, value = "SELECT * FROM EZ_FASTFOOD_CATALOG.CATEGORY WHERE id = :id")
 	CategoryEntity findCategoryById(@Param("id") Long id);
 }
