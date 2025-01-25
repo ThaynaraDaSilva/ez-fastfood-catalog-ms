@@ -50,21 +50,7 @@ public class CustomExceptionHandler {
 	private HttpStatus mapBusinessExceptionToStatus(String message) {
         // Define specific mappings from message content to status codes
         Map<String, HttpStatus> statusMapping = new HashMap<>();
-        
-        //customer
-        statusMapping.put("Cliente não encontrado", HttpStatus.OK);
-        statusMapping.put("Dados inválidos", HttpStatus.BAD_REQUEST);
-        statusMapping.put("Cliente já cadastrado", HttpStatus.CONFLICT);
-        statusMapping.put("CPF ou senha errada.", HttpStatus.UNAUTHORIZED);
-        statusMapping.put("Não há clientes cadastrados.", HttpStatus.OK);
-        
-        
-        //order
-        statusMapping.put("Lista de pedidos vazia.", HttpStatus.OK);
-        statusMapping.put("Não há pedidos com status 'Pronto', 'Em preparação' ou 'Recebido'", HttpStatus.OK);
-        statusMapping.put("Pedido não pode ser alterado, uma vez que o pagamento ainda não foi confirmado.",HttpStatus.OK);
-        statusMapping.put("Pedido não pode ser atualizado, uma vez que está cancelado por falta de pagamento.",HttpStatus.OK);
-        
+
         //product
         statusMapping.put("Produto não pode ser excluído, pois já faz parte de pedidos.", HttpStatus.OK);
         statusMapping.put("Produto escolhido não foi encontrado.", HttpStatus.OK);
@@ -74,13 +60,7 @@ public class CustomExceptionHandler {
        
         //Category
         statusMapping.put("Categoria escolhida não existe.", HttpStatus.OK);
-        
-        //Payment
-        statusMapping.put("Este pagamento já foi confirmado ou recusado.", HttpStatus.OK);
-        statusMapping.put(" Não existe pagamento com este id.", HttpStatus.OK);
-               
 
-        // Return the mapped status or INTERNAL_SERVER_ERROR if no match is found
         return statusMapping.getOrDefault(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
