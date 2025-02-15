@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ezfastfood-catalog-ms-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ezfastfood-catalog-ms
+  template:
+    metadata:
+      labels:
+        app: ezfastfood-catalog-ms
+    spec:
+      nodeSelector:
+        service: catalog 
+
+      containers:
+      - name: ezfastfood-catalog-ms-container
+        image: dasilvathaynara/ez-fastfood-catalog-ms:latest
+        imagePullPolicy: IfNotPresent
+
+        ports:
+        - containerPort: 8080
+
+        env:
+        - name: JAVA_OPTS
+          value: "-Xms100m -Xmx512m -XX:+UseParallelGC"  # JVM options
+
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: ezfastfood-catalog-secret
+              key: POSTGRES_DB
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: ezfastfood-catalog-secret
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ezfastfood-catalog-secret
+              key: POSTGRES_PASSWORD
+
+        envFrom:
+        - configMapRef:
+            name: ezfastfood-catalog-configmap
+
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "150Mi"
+          limits:
+            cpu: "300m"
+            memory: "500Mi"
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 15  # Ajustado para melhorar o startup
+          periodSeconds: 10
+          failureThreshold: 3
