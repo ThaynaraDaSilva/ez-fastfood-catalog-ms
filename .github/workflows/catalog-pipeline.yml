@@ -9,6 +9,7 @@ on:
 env:
   JAVA_VERSION: '17'
   DOCKER_FILE_TAG: 'dasilvathaynara/ez-fastfood-catalog-ms:latest'
+  EKS_CLUSTER_NAME: 'ez-fastfood-cluster-dev'
 
 jobs:
   setup-jdk:
@@ -81,7 +82,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
+      - name: Set up Docker Build
         uses: docker/setup-buildx-action@v3
 
       - name: Log in to Docker Hub
@@ -116,7 +117,7 @@ jobs:
         sudo mv kubectl /usr/local/bin/
  
     - name: Update kubeconfig for EKS
-      run: aws eks update-kubeconfig --region us-east-1 --name ez-fastfood-dev
+      run: aws eks update-kubeconfig --region us-east-1 --name ${{EKS_CLUSTER_NAME}}
  
     - name: Apply Kubernetes manifests
       run: |
