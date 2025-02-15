@@ -58,7 +58,7 @@ public class CatalogController {
         return new ResponseEntity<>(productUseCase.findAll(), HttpStatus.OK);
     }
 
-	@Hidden
+
 	@Operation(summary = "Find Product by ID")
 	@GetMapping("/find-by-id/{id}")
 	public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id) {
