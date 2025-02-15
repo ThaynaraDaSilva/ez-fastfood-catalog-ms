@@ -1,12 +1,14 @@
 name: Build, Test, and Push Docker Image
 
 on:
-  pull_request:
+  push:
+  #pull_request:
     branches:
-      - main
+      - feature/k8s-manifests-configuration
 
 env:
   JAVA_VERSION: '17'
+  DOCKER_FILE_TAG: 'dasilvathaynara/ez-fastfood-catalog-ms:latest'
 
 jobs:
   setup-jdk:
@@ -17,7 +19,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: ${{ env.JAVA_VERSION }}
+          java-version: ${{ env.JAVA_VERSION }} 
 
   build-package:
     needs: setup-jdk
@@ -94,7 +96,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: dasilvathaynara/ez-fast-food-api:v3
+          tags: ${{ env.DOCKER_FILE_TAG }}
   deploy:
     needs: build-and-push-image
     runs-on: ubuntu-latest
@@ -118,7 +120,7 @@ jobs:
  
     - name: Apply Kubernetes manifests
       run: |
-        kubectl apply -f k8s/api-deployment.yaml --validate=false
-        kubectl apply -f k8s/api-service.yaml
-        kubectl apply -f k8s/api-configmap.yaml
-        kubectl apply -f k8s/ezfastfood-secrets.yaml
+        kubectl apply -f k8s/catalog-deployment.yaml --validate=false
+        kubectl apply -f k8s/catalog-service.yaml
+        kubectl apply -f k8s/catalog-configmap.yaml
+        kubectl apply -f k8s/catalog-secrets.yaml
