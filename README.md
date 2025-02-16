@@ -8,4 +8,5 @@ ez-fastfood-catalog-ms
 ```
 docker build -t dasilvathaynara/ez-fastfood-catalog-ms:latest . 
 docker push dasilvathaynara/ez-fastfood-catalog-ms:latest
+
 ```
