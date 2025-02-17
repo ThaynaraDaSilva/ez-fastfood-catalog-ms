@@ -1,10 +1,10 @@
-name: Build, Test, and Push Docker Image
+name: Catalog Microservice CI/CD Pipeline
 
 on:
   push:
-  #pull_request:
     branches:
       - develop
+      - main
 
 env:
   JAVA_VERSION: '17'
@@ -44,7 +44,7 @@ jobs:
   run-tests:
     needs: build-package
     runs-on: ubuntu-latest
-
+    if: github.ref == 'refs/heads/develop'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -62,7 +62,6 @@ jobs:
         run: | 
           mvn surefire-report:report-only
           ls -lha
-        
 
       - name: Show Test Results in Logs
         if: always()
@@ -106,6 +105,7 @@ jobs:
   build-and-push-image:
     needs: sonar-analysis
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
 
     steps:
       - name: Checkout repository
@@ -130,6 +130,7 @@ jobs:
   deploy:
     needs: build-and-push-image
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -138,7 +139,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1 # Replace with your region
+        aws-region: us-east-1
     - name: Install kubectl
       run: |
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
