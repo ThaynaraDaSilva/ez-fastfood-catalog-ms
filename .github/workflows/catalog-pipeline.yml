@@ -99,9 +99,6 @@ jobs:
         run: echo "🎉 Quality Gate Passed."
 
   docker-build-push:
-    needs: 
-      - build-artifact
-      - static-code-analysis
     runs-on: ubuntu-latest
     if: contains('refs/heads/develop', github.ref) || contains('refs/heads/main', github.ref)
     steps:
