@@ -103,8 +103,11 @@ jobs:
         run: echo "🎉 Tudo certo! O Quality Gate foi aprovado."
 
   build-and-push-image:
-    needs: sonar-analysis
+    needs: 
+      - build-package
+      - sonar-analysis
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout repository
@@ -129,6 +132,7 @@ jobs:
   deploy:
     needs: build-and-push-image
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
