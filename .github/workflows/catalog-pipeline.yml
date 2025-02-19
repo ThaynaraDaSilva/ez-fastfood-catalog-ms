@@ -42,7 +42,7 @@ jobs:
   unit-tests:
     needs: build-artifact
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
+    #if: github.ref == 'refs/heads/develop'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -72,7 +72,7 @@ jobs:
   static-code-analysis:
     needs: unit-tests
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop' 
+    #if: github.ref == 'refs/heads/develop' 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -99,8 +99,10 @@ jobs:
         run: echo "🎉 Quality Gate Passed."
 
   docker-build-push:
+    needs:
+      - build-artifact
+      - static-code-analysis
     runs-on: ubuntu-latest
-    if: contains('refs/heads/develop', github.ref) || contains('refs/heads/main', github.ref)
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
